@@ -1,25 +1,52 @@
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
+import { auth } from "../../../configs/FirebaseConfig";
 
 export default function SignIn() {
   const navigation = useNavigation();
   const router = useRouter();
-  const [unhidePassword, setUnhidePassword] = useState(false);
+
+  const [unhidePassword, setUnhidePassword] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
-  }, []);
+  });
+
+  const onSignIn = () => {
+    if (!email || !password) {
+      ToastAndroid.show("Please fill all the fields", ToastAndroid.TOP);
+      return;
+    }
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        ToastAndroid.show("Email or Password is incorrect", ToastAndroid.TOP);
+      });
+  };
 
   return (
     <View
@@ -79,6 +106,9 @@ export default function SignIn() {
           <TextInput
             style={{ flex: 1, fontFamily: "outfit" }}
             placeholder="Enter Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={(value) => setEmail(value)}
           />
         </View>
       </View>
@@ -103,6 +133,8 @@ export default function SignIn() {
             secureTextEntry={unhidePassword}
             style={{ flex: 1, fontFamily: "outfit" }}
             placeholder="Enter Password"
+            autoCapitalize="none"
+            onChangeText={(value) => setPassword(value)}
           />
           <TouchableOpacity onPress={() => setUnhidePassword(!unhidePassword)}>
             <Ionicons
@@ -116,6 +148,7 @@ export default function SignIn() {
 
       {/* sign in button */}
       <TouchableOpacity
+        onPress={onSignIn}
         style={{
           padding: 15,
           backgroundColor: Colors.PRIMARY,
@@ -137,7 +170,7 @@ export default function SignIn() {
 
       {/* create account button */}
       <TouchableOpacity
-        onPress={() => router.replace("auth/sign-up")}
+        onPress={() => router.replace("/auth/sign-up")}
         style={{
           padding: 15,
           backgroundColor: Colors.WHITE,
