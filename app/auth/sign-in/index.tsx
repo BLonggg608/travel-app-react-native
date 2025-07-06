@@ -1,3 +1,4 @@
+import SpriteAnimator from "@/components/SpriteAnimation";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
@@ -25,7 +26,7 @@ export default function SignIn() {
     navigation.setOptions({
       headerShown: false,
     });
-  });
+  }, []);
 
   const onSignIn = () => {
     if (!email || !password) {
@@ -37,6 +38,7 @@ export default function SignIn() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        router.replace("/mytrip");
         console.log(user);
         // ...
       })
@@ -61,7 +63,28 @@ export default function SignIn() {
         <Ionicons name="arrow-back" size={30}></Ionicons>
       </TouchableOpacity>
 
-      <Text style={{ fontFamily: "outfit-bold", fontSize: 30, marginTop: 20 }}>
+      <View style={{ alignItems: "center" }}>
+        <SpriteAnimator
+          source={require("../../../assets/images/Idle.png")}
+          frameWidth={32}
+          frameCount={10}
+          scale={3}
+          frameDuration={100}
+        />
+      </View>
+
+      <Text
+        style={{
+          fontFamily: "outfit-bold",
+          fontSize: 30,
+          marginTop: 10,
+          textAlign: "center",
+        }}
+      >
+        Let&apos;s Sign You In
+      </Text>
+
+      {/* <Text style={{ fontFamily: "outfit-bold", fontSize: 30, marginTop: 20 }}>
         Let&apos;s Sign You In
       </Text>
 
@@ -85,7 +108,7 @@ export default function SignIn() {
         }}
       >
         You&apos;ve been missed!
-      </Text>
+      </Text> */}
 
       {/* email field */}
       <View

@@ -1,3 +1,4 @@
+import SpriteAnimator from "@/components/SpriteAnimation";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
@@ -27,7 +28,7 @@ export default function SignUp() {
     navigation.setOptions({
       headerShown: false,
     });
-  });
+  }, []);
 
   const OnCreateAccount = () => {
     if (!fullName || !email || !password || !verifyPassword) {
@@ -43,6 +44,7 @@ export default function SignUp() {
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
+        router.replace("/mytrip");
         console.log(user);
 
         // ...
@@ -74,11 +76,22 @@ export default function SignUp() {
         <Ionicons name="arrow-back" size={30}></Ionicons>
       </TouchableOpacity>
 
+      <View style={{ alignItems: "center" }}>
+        <SpriteAnimator
+          source={require("../../../assets/images/Box3.png")}
+          frameWidth={32}
+          frameCount={4}
+          scale={3}
+          frameDuration={100}
+        />
+      </View>
+
       <Text
         style={{
           fontFamily: "outfit-bold",
           fontSize: 30,
-          marginTop: 20,
+          marginTop: 10,
+          textAlign: "center",
         }}
       >
         Create Your Account

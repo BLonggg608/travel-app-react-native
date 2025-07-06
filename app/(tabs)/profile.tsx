@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import { Text, View } from "react-native";
 
 function Profile() {
   return (
-    <div>Profile</div>
-  )
+    <View>
+      <Text>Profile</Text>
+    </View>
+  );
 }
 
-export default Profile
+export default Profile;
