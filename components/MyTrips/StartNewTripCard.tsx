@@ -1,9 +1,12 @@
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 const StartNewTripCard = () => {
+  const router = useRouter();
+
   return (
     <View
       style={{
@@ -34,8 +37,9 @@ const StartNewTripCard = () => {
           padding: 15,
           backgroundColor: Colors.PRIMARY,
           borderRadius: 15,
-          paddingHorizontal: 30,
+          paddingHorizontal: 25,
         }}
+        onPress={() => router.push("/create-trip/search-place")}
       >
         <Text
           style={{
@@ -44,7 +48,7 @@ const StartNewTripCard = () => {
             fontSize: 17,
           }}
         >
-          Start A New Trip
+          Start Your New Trip
         </Text>
       </TouchableOpacity>
     </View>
